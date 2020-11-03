@@ -29,5 +29,7 @@ jobs:
           git branch -a
           git checkout master
           git add README.md
+          git config --global user.email "hola@girlsincode.com"
+          git config --global user.name "Violeta"
           git commit -m "Updated README"
           git push
