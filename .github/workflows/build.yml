@@ -27,9 +27,7 @@ jobs:
         run: |-
           git status
           git branch -a
+          git checkout master
           git add README.md
-          # git diff
-          # git config --global user.email "hello@girlsincode.com"
-          # git config --global user.name "ReadMe Bot"
-          git commit -m ":sparkles: feat(README.md): Updated README" || echo "No changes detected"
+          git commit -m "Updated README"
           git push
