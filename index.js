@@ -5,7 +5,6 @@ const md = require('markdown-it')({
 });
 const mdEmoji = require('markdown-it-emoji');
 const fs = require('fs');
-const axios = require('axios').default;
 const fetch = require('node-fetch');
 
 md.use(mdEmoji);
