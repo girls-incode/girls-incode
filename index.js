@@ -6,6 +6,7 @@ const md = require('markdown-it')({
 const mdEmoji = require('markdown-it-emoji');
 const fs = require('fs');
 const axios = require('axios').default;
+const fetch = require('node-fetch');
 
 md.use(mdEmoji);
 
@@ -45,8 +46,8 @@ const badgeConfigs = [
   {
     name: 'Mail',
     badgeText: 'girls.in.codes',
-    labelBgColor: '0A0A0A',
-    logoBgColor: '0A0A0A',
+    labelBgColor: 'c0392b',
+    logoBgColor: 'c0392b',
     logo: 'gmail',
     link: 'mailto:girls.in.codes@gmail.com',
   },
@@ -196,12 +197,10 @@ const tools = toolsConfig.reduce(
 const visitors = `![visitors](https://visitor-badge.glitch.me/badge?page_id=.girls-incode.girls-incode)`;
 
 (async () => {
-  const response = await axios.get(
-    `${BLOG_HOST}/blog.json`
-  );
+  let resp = await fetch(`${BLOG_HOST}blog.json`);
+  let data = (await resp.json()).data;
   let posts = ``;
-
-  response.map((post) => {
+  data.map((post) => {
     const { title, published, url } = post;
     posts += `<li><a target="_blank" href="${url}">${title} — ${published}</a></li>`;
   });
