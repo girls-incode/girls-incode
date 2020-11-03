@@ -25,9 +25,11 @@ jobs:
           npm start
       - name: Commit with diff
         run: |-
-          git add .
-          git diff
-          git config --global user.email "hello@girlsincode.com"
-          git config --global user.name "ReadMe Bot"
+          git status
+          git branch -a
+          git add README.md
+          # git diff
+          # git config --global user.email "hello@girlsincode.com"
+          # git config --global user.name "ReadMe Bot"
           git commit -m ":sparkles: feat(README.md): Updated README" || echo "No changes detected"
           git push
