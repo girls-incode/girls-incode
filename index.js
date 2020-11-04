@@ -21,56 +21,170 @@ const badgeConfigs = [
   {
     name: 'Website',
     badgeText: 'girlsincode',
-    labelBgColor: '004880',
+    logoText: 'GIS',
+    labelBgColor: 'fff',
     logoBgColor: '004880',
+    logoColor: 'fff',
     logo: '',
     link: 'https://girlsincode.com',
   },
   {
     name: 'linkedin',
     badgeText: 'avioleta',
-    labelBgColor: '0e76a8',
-    logoBgColor: '0e76a8',
+    labelBgColor: 'fff',
+    logoBgColor: 'fff',
+    logoColor: '0e76a8',
     logo: 'linkedin',
     link: 'https://www.linkedin.com/in/avioleta/',
   },
   {
-    name: 'LinkedIn',
+    name: 'twitter',
     badgeText: 'girls_incode',
-    labelBgColor: '1ca0f1',
-    logoBgColor: '1ca0f1',
+    labelBgColor: 'fff',
+    logoBgColor: 'fff',
+    logoColor: '1ca0f1',
     logo: 'twitter',
     link: 'https://twitter.com/girls_incode',
   },
   {
     name: 'Mail',
     badgeText: 'girls.in.codes',
-    labelBgColor: 'c0392b',
-    logoBgColor: 'c0392b',
+    labelBgColor: 'fff',
+    logoBgColor: 'fff',
+    logoColor: 'c0392b',
     logo: 'gmail',
     link: 'mailto:girls.in.codes@gmail.com',
   },
   {
     name: 'youtube',
     badgeText: 'girls_incode',
-    labelBgColor: 'e74c3c',
-    logoBgColor: 'e74c3c',
+    labelBgColor: 'fff',
+    logoBgColor: 'fff',
+    logoColor: 'e74c3c',
     logo: 'youtube',
     link: 'https://youtube.com/girls_incode',
   },
   {
     name: 'instagram',
     badgeText: 'violeta.girlsincode',
-    labelBgColor: 'E4405F',
-    logoBgColor: 'E4405F',
+    labelBgColor: 'fff',
+    logoBgColor: 'fff',
+    logoColor: 'E4405F',
     logo: 'instagram',
     link: 'https://www.instagram.com/violeta.girlsincode',
   },
 ];
-const badges = badgeConfigs.reduce((result, config) => result + ' ' + generateBadge(config), '');
 
+const stacks = [
+  {
+    name: 'Nodejs',
+    badgeText: 'Nodejs',
+    logoText: '',
+    logo: 'Node.js',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: '43853d',
+  },
+  {
+    name: 'React',
+    badgeText: 'React',
+    logo: 'React',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: '004880',
+  },
+  {
+    name: 'Angular',
+    badgeText: 'Angular',
+    logo: 'Angular',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: 'DD0031',
+  },
+  {
+    name: 'TypeScript',
+    badgeText: 'TypeScript',
+    logo: 'TypeScript',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: '004880',
+  },
+  {
+    name: 'HTML5',
+    badgeText: 'HTML5',
+    logo: 'HTML5',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: 'E34F26',
+  },
+  {
+    name: 'Sass',
+    badgeText: 'Sass',
+    logo: 'Sass',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: 'CC6699',
+  },
+  {
+    name: 'PHP',
+    badgeText: 'PHP',
+    logo: 'PHP',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: '004880',
+  },
+  {
+    name: 'MySQL',
+    badgeText: 'MySQL',
+    logo: 'MySQL',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: '222',
+  },
+  {
+    name: 'MongoDB',
+    badgeText: 'MongoDB',
+    logo: 'MongoDB',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: '13aa52',
+  },
+  {
+    name: 'GraphQL',
+    badgeText: 'GraphQL',
+    logo: 'GraphQL',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: 'E10098',
+  },
+  {
+    name: 'Docker',
+    badgeText: 'Docker',
+    logo: 'Docker',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+  },
+  {
+    name: 'Git',
+    badgeText: 'Git',
+    logo: 'Git',
+    labelBgColor: 'fff',
+    logoBgColor: '',
+    logoColor: 'F05032',
+  },
+];
+const badges = badgeConfigs.reduce(
+  (result, config, i) =>
+    result + (i % 3 == 0 ? '<br>' : ' ') + generateBadge(config),
+  ''
+);
+const badgeStacks = stacks.reduce(
+  (result, config, i) =>
+    result + (i % 6 == 0 ? '<br>' : ' ') + generateBadge(config),
+  ''
+);
 const postsTitle = generateTitle(2, `Recent articles`);
-const toolsTitle = generateTitle(2, `My prefered tools`);
+const toolsTitle = generateTitle(2, `Beloved tools`);
 const toolsIconSize = 25;
 const toolsConfig = [
   {
@@ -196,12 +310,21 @@ const tools = toolsConfig.reduce(
 const visitors = `![visitors](https://visitor-badge.glitch.me/badge?page_id=.girls-incode.girls-incode)`;
 
 (async () => {
-  let resp = await fetch(`${BLOG_HOST}blog.json`);
-  let data = (await resp.json()).data;
+  let resp = await fetch(`${BLOG_HOST}wp-json/wp/v2/posts?status=publish`);
+  var options = {
+    // weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  let data = await resp.json();
   let posts = ``;
-  data.map((post) => {
-    const { title, published, url } = post;
-    posts += `<li><a target="_blank" href="${url}">${title} — ${published}</a></li>`;
+  data.map((post, i) => {
+    if (i > 4) return;
+    const { title, modified, link } = post;
+    posts += `<li><a target="_blank" href="${link}">${
+      title.rendered
+    } — ${new Date(modified).toLocaleDateString('en-US', options)}</a></li>`;
   });
 
 const content = `${introTitle}\n
@@ -211,9 +334,7 @@ ${postsTitle}\n
 ${posts}\n
 <a target="_blank" href="${BLOG_HOST}">Read More</a>\n
 ${toolsTitle}\n
-<p align="left">\n
-${tools}\n
-</p>\n
+${badgeStacks}\n
 ${visitors}
 `;
 
@@ -228,7 +349,15 @@ ${visitors}
 })();
 
 function generateBadge(badgeConfig) {
-  return `[![${badgeConfig.name} Badge](https://img.shields.io/badge/-${badgeConfig.badgeText}-${badgeConfig.labelBgColor}?style=flat&labelColor=${badgeConfig.logoBgColor}&logo=${badgeConfig.logo}&link=${badgeConfig.link})](${badgeConfig.link})`;
+  return `[![${badgeConfig.name} Badge](https://img.shields.io/badge/${
+    badgeConfig.logoText ? badgeConfig.logoText : ''
+  }-${badgeConfig.badgeText}-${
+    badgeConfig.labelBgColor
+  }?style=flat&labelColor=${badgeConfig.logoBgColor}&logo=${
+    badgeConfig.logo
+  }&logoColor=${badgeConfig.logoColor}&link=${badgeConfig.link})](${
+    badgeConfig.link
+  })`;
 }
 
 function generateIcon(iconConfig, toolsIconSize) {
